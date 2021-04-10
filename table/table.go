@@ -50,6 +50,13 @@ func (table *Table) Int(name string) (*IntColumn) {
     return s
 }
 
+func (table *Table) DateTime(name string) (*DateTimeColumn) {
+    s := NewDateTimeColumn(name)
+    sqlable := SQLable(s)
+    table.columns = append(table.columns, &sqlable)
+    return s
+}
+
 
 // Helper datatypes
 func (table *Table) ID() (*IntColumn) {
@@ -58,4 +65,9 @@ func (table *Table) ID() (*IntColumn) {
     sqlable := SQLable(s)
     table.columns = append(table.columns, &sqlable)
     return s
+}
+
+func (table *Table) Timestamps() {
+    table.DateTime("created_at").Default("NOW()")
+    table.DateTime("updated_at").Default("NOW()").OnUpdate("NOW()")
 }

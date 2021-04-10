@@ -11,5 +11,6 @@ func main() {
         table.ID()
         table.String("email")
         table.Int("age")
+        table.Timestamps()
     });
 }
