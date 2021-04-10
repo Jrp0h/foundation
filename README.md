@@ -37,13 +37,13 @@ Translates to a varchar
 
 Methods:
 
-Length - Sets the length of the string
-Nullable - Removes NOT NULL from final string
-Unique - Adds UNIQUE to final string
-Primary - Adds PRIMARY KEY to final string
-Default - Adds a default value when no value is inserted in the database
-OnUpdate - Sql on update
-OnDelete - Sql on delete
+* Length - Sets the length of the string
+* Nullable - Removes NOT NULL from final string
+* Unique - Adds UNIQUE to final string
+* Primary - Adds PRIMARY KEY to final string
+* Default - Adds a default value when no value is inserted in the database
+* OnUpdate - Sql on update
+* OnDelete - Sql on delete
 
 #### DateTime
 
@@ -53,12 +53,12 @@ Translates to a datetime
 
 Methods:
 
-Nullable - Removes NOT NULL from final string
-Unique - Adds UNIQUE to final string
-Primary - Adds PRIMARY KEY to final string
-Default - Adds a default value when no value is inserted in the database
-OnUpdate - Sql on update
-OnDelete - Sql on delete
+* Nullable - Removes NOT NULL from final string
+* Unique - Adds UNIQUE to final string
+* Primary - Adds PRIMARY KEY to final string
+* Default - Adds a default value when no value is inserted in the database
+* OnUpdate - Sql on update
+* OnDelete - Sql on delete
 
 #### Int
 
@@ -68,19 +68,19 @@ Translates to a Int or TINYINT, SMALLINT, MEDIUMINT, BIGINT depending
 
 Methods:
 
-Length - Sets the length of the int
-Tiny - Makes it a TINYINT
-Small - Makes it a SMALLINT
-Medium - Makes it a MEDIUMINT
-Big - Makes it a BIGINT
-Unsigned - Makes it unsigned
-Nullable - Removes NOT NULL from final string
-Unique - Adds UNIQUE to final string
-Primary - Adds PRIMARY KEY to final string
-AutoIncrement - Adds AUTO_INCREMENT to final string
-Default - Adds a default value when no value is inserted in the database
-OnUpdate - Sql on update
-OnDelete - Sql on delete
+* Length - Sets the length of the int
+* Tiny - Makes it a TINYINT
+* Small - Makes it a SMALLINT
+* Medium - Makes it a MEDIUMINT
+* Big - Makes it a BIGINT
+* Unsigned - Makes it unsigned
+* Nullable - Removes NOT NULL from final string
+* Unique - Adds UNIQUE to final string
+* Primary - Adds PRIMARY KEY to final string
+* AutoIncrement - Adds AUTO_INCREMENT to final string
+* Default - Adds a default value when no value is inserted in the database
+* OnUpdate - Sql on update
+* OnDelete - Sql on delete
 
 #### Text
 
@@ -90,16 +90,16 @@ Translates to a text or SMALLTEXT, MEDIUMTEXT, LONGTEXT depending
 
 Methods:
 
-Length - Sets the length of the string
-Small - Makes it a SMALLTEXT
-Medium - Makes it a MEDIUMTEXT
-Long - Makes it a LONGTEXT
-Nullable - Removes NOT NULL from final string
-Unique - Adds UNIQUE to final string
-Primary - Adds PRIMARY KEY to final string
-Default - Adds a default value when no value is inserted in the database
-OnUpdate - Sql on update
-OnDelete - Sql on delete
+* Length - Sets the length of the string
+* Small - Makes it a SMALLTEXT
+* Medium - Makes it a MEDIUMTEXT
+* Long - Makes it a LONGTEXT
+* Nullable - Removes NOT NULL from final string
+* Unique - Adds UNIQUE to final string
+* Primary - Adds PRIMARY KEY to final string
+* Default - Adds a default value when no value is inserted in the database
+* OnUpdate - Sql on update
+* OnDelete - Sql on delete
 
 #### ForeignID
 
@@ -111,18 +111,18 @@ Automatically set to UNSIGNED BIGINT
 
 Methods:
 
-Length - Sets the length of the int
-Tiny - Makes it a TINYINT
-Small - Makes it a SMALLINT
-Medium - Makes it a MEDIUMINT
-Big - Makes it a BIGINT
-Nullable - Removes NOT NULL from final string
-Unsigned - Makes it unsigned
-Unique - Adds UNIQUE to final string
-Primary - Adds PRIMARY KEY to final string
-Default - Adds a default value when no value is inserted in the database
-OnUpdate - Sql on update
-OnDelete - Sql on delete
+* Length - Sets the length of the int
+* Tiny - Makes it a TINYINT
+* Small - Makes it a SMALLINT
+* Medium - Makes it a MEDIUMINT
+* Big - Makes it a BIGINT
+* Nullable - Removes NOT NULL from final string
+* Unsigned - Makes it unsigned
+* Unique - Adds UNIQUE to final string
+* Primary - Adds PRIMARY KEY to final string
+* Default - Adds a default value when no value is inserted in the database
+* OnUpdate - Sql on update
+* OnDelete - Sql on delete
 
 #### Enum
 
@@ -132,12 +132,12 @@ Translates to a ENUM
 
 Methods:
 
-Nullable - Removes NOT NULL from final string
-Unique - Adds UNIQUE to final string
-Primary - Adds PRIMARY KEY to final string
-Default - Adds a default value when no value is inserted in the database
-OnUpdate - Sql on update
-OnDelete - Sql on delete
+* Nullable - Removes NOT NULL from final string
+* Unique - Adds UNIQUE to final string
+* Primary - Adds PRIMARY KEY to final string
+* Default - Adds a default value when no value is inserted in the database
+* OnUpdate - Sql on update
+* OnDelete - Sql on delete
 
 #### Bool
 
@@ -147,12 +147,12 @@ Translates to a Bool
 
 Methods:
 
-Nullable - Removes NOT NULL from final string
-Unique - Adds UNIQUE to final string
-Primary - Adds PRIMARY KEY to final string
-Default - Adds a default value when no value is inserted in the database
-OnUpdate - Sql on update
-OnDelete - Sql on delete
+* Nullable - Removes NOT NULL from final string
+* Unique - Adds UNIQUE to final string
+* Primary - Adds PRIMARY KEY to final string
+* Default - Adds a default value when no value is inserted in the database
+* OnUpdate - Sql on update
+* OnDelete - Sql on delete
 
 ### Helper methods
 
