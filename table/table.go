@@ -57,6 +57,13 @@ func (table *Table) DateTime(name string) (*DateTimeColumn) {
     return s
 }
 
+func (table *Table) Enum(name string, values []string) (*EnumColumn) {
+    s := NewEnumColumn(name, values)
+    sqlable := SQLable(s)
+    table.columns = append(table.columns, &sqlable)
+    return s
+}
+
 func (table *Table) ForeginID(name string, references string, on string) (*ForeginIDColumn) {
     s := NewForeginIDColumn(name, references, on)
     s.Unsigned()
