@@ -7,6 +7,7 @@ type ForeginIDColumn struct {
 
 	name string
 	length int
+    size string
 
 	allowNull bool
 	isUnique  bool
@@ -24,6 +25,18 @@ type ForeginIDColumn struct {
 
 func NewForeginIDColumn(name string, references string, on string) *ForeginIDColumn {
     return &ForeginIDColumn{datatype: "int", name: name, allowNull: false, isUnique: false, length: 11, references: references, on: on}
+}
+
+func (col *ForeginIDColumn) Size(size string) *ForeginIDColumn {
+    switch size {
+        case "TINY", "SMALL", "", "MEDIUM", "BIG":
+            col.size = size
+            break
+        default:
+            panic(size + " is not a valid integer size!, allowed: TINY, SMALL, MEDIUM, BIG and ''(Empty string)")
+    }
+
+	return col
 }
 
 func (col *ForeginIDColumn) Length(length int) *ForeginIDColumn {

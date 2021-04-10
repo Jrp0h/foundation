@@ -7,6 +7,7 @@ type IntColumn struct {
 
 	name   string
 	length int
+    size string
 
 	allowNull bool
 	isUnique  bool
@@ -20,7 +21,19 @@ type IntColumn struct {
 }
 
 func NewIntColumn(name string) *IntColumn {
-	return &IntColumn{datatype: "int", name: name, allowNull: false, isUnique: false, length: 11}
+    return &IntColumn{datatype: "int", name: name, allowNull: false, isUnique: false, length: 11, size: ""}
+}
+
+func (col *IntColumn) Size(size string) *IntColumn {
+    switch size {
+        case "TINY", "SMALL", "", "MEDIUM", "BIG":
+            col.size = size
+            break
+        default:
+            panic(size + " is not a valid integer size!, allowed: TINY, SMALL, MEDIUM, BIG and ''(Empty string)")
+    }
+
+	return col
 }
 
 func (col *IntColumn) Length(length int) *IntColumn {
@@ -69,7 +82,7 @@ func (col *IntColumn) OnDelete(value string) *IntColumn {
 }
 
 func (col *IntColumn) ToInsertSQL() string {
-    sql := col.name + " " + col.datatype + "(" + fmt.Sprint(col.length) + ")"
+    sql := col.name + " " + col.size + col.datatype + "(" + fmt.Sprint(col.length) + ")"
 
     if col.isUnsigned {
         sql += " UNSIGNED"

@@ -78,7 +78,7 @@ func (table *Table) Text(name string) (*TextColumn) {
 
 func (table *Table) ForeginID(name string, references string, on string) (*ForeginIDColumn) {
     s := NewForeginIDColumn(name, references, on)
-    s.Unsigned()
+    s.Unsigned().Size("BIG")
     sqlable := SQLable(s)
     table.columns = append(table.columns, &sqlable)
     return s
@@ -88,7 +88,7 @@ func (table *Table) ForeginID(name string, references string, on string) (*Foreg
 // Helper datatypes
 func (table *Table) ID() (*IntColumn) {
     s := NewIntColumn("id")
-    s.AutoIncrement().Primary().Unique().Unsigned()
+    s.AutoIncrement().Primary().Unique().Unsigned().Size("BIG")
     sqlable := SQLable(s)
     table.columns = append(table.columns, &sqlable)
     return s
@@ -109,4 +109,20 @@ func (table *Table) MediumText(name string) (*TextColumn) {
 
 func (table *Table) LongText(name string) (*TextColumn) {
     return table.Text(name).Size("LONG")
+}
+
+func (table *Table) TinyInt(name string) (*IntColumn) {
+    return table.Int(name).Size("TINY")
+}
+
+func (table *Table) SmallInt(name string) (*IntColumn) {
+    return table.Int(name).Size("SMALL")
+}
+
+func (table *Table) MediumInt(name string) (*IntColumn) {
+    return table.Int(name).Size("MEDIUM")
+}
+
+func (table *Table) BigInt(name string) (*IntColumn) {
+    return table.Int(name).Size("BIG")
 }
