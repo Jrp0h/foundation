@@ -57,6 +57,14 @@ func (table *Table) DateTime(name string) (*DateTimeColumn) {
     return s
 }
 
+func (table *Table) ForeginID(name string, references string, on string) (*ForeginIDColumn) {
+    s := NewForeginIDColumn(name, references, on)
+    s.Unsigned()
+    sqlable := SQLable(s)
+    table.columns = append(table.columns, &sqlable)
+    return s
+}
+
 
 // Helper datatypes
 func (table *Table) ID() (*IntColumn) {
@@ -71,3 +79,4 @@ func (table *Table) Timestamps() {
     table.DateTime("created_at").Default("NOW()")
     table.DateTime("updated_at").Default("NOW()").OnUpdate("NOW()")
 }
+

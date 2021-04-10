@@ -11,6 +11,7 @@ func main() {
         table.ID()
         table.String("email")
         table.Int("age")
+        table.ForeginID("company_id", "companies", "id")
         table.Timestamps()
-    });
+    })
 }
