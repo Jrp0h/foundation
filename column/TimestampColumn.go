@@ -1,6 +1,6 @@
 package column
 
-type DateTimeColumn struct {
+type TimestampColumn struct {
 	datatype string
 
 	name   string
@@ -14,41 +14,41 @@ type DateTimeColumn struct {
 	onDeleteValue string
 }
 
-func NewDateTimeColumn(name string) *DateTimeColumn {
-	return &DateTimeColumn{datatype: "DATETIME", name: name, allowNull: false, isUnique: false}
+func NewTimestampColumn(name string) *TimestampColumn {
+	return &TimestampColumn{datatype: "TIMESTAMP", name: name, allowNull: false, isUnique: false}
 }
 
-func (col *DateTimeColumn) Nullable() *DateTimeColumn {
+func (col *TimestampColumn) Nullable() *TimestampColumn {
 	col.allowNull = true
 	return col
 }
 
-func (col *DateTimeColumn) Unique() *DateTimeColumn {
+func (col *TimestampColumn) Unique() *TimestampColumn {
 	col.isUnique = true
 	return col
 }
 
-func (col *DateTimeColumn) Primary() *DateTimeColumn {
+func (col *TimestampColumn) Primary() *TimestampColumn {
 	col.isPrimary = true
 	return col
 }
 
-func (col *DateTimeColumn) Default(value string) *DateTimeColumn {
+func (col *TimestampColumn) Default(value string) *TimestampColumn {
 	col.defaultValue = value
 	return col
 }
 
-func (col *DateTimeColumn) OnUpdate(value string) *DateTimeColumn {
+func (col *TimestampColumn) OnUpdate(value string) *TimestampColumn {
 	col.onUpdateValue = value
 	return col
 }
 
-func (col *DateTimeColumn) OnDelete(value string) *DateTimeColumn {
+func (col *TimestampColumn) OnDelete(value string) *TimestampColumn {
 	col.onDeleteValue = value
 	return col
 }
 
-func (col *DateTimeColumn) ToInsertSQL() string {
+func (col *TimestampColumn) ToInsertSQL() string {
     sql := col.name + " " + col.datatype
 
     if !col.allowNull {

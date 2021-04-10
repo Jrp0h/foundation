@@ -55,8 +55,8 @@ func (table *Table) Int(name string) (*IntColumn) {
     return s
 }
 
-func (table *Table) DateTime(name string) (*DateTimeColumn) {
-    s := NewDateTimeColumn(name)
+func (table *Table) Timestamp(name string) (*TimestampColumn) {
+    s := NewTimestampColumn(name)
     sqlable := SQLable(s)
     table.columns = append(table.columns, &sqlable)
     return s
@@ -102,8 +102,8 @@ func (table *Table) ID() (*IntColumn) {
 }
 
 func (table *Table) Timestamps() {
-    table.DateTime("created_at").Default("NOW()")
-    table.DateTime("updated_at").Default("NOW()").OnUpdate("NOW()")
+    table.Timestamp("created_at").Default("NOW()")
+    table.Timestamp("updated_at").Default("NOW()").OnUpdate("NOW()")
 }
 
 func (table *Table) TinyText(name string) (*TextColumn) {
