@@ -125,7 +125,7 @@ func (col *ForeignIDColumn) ToInsertSQL() string {
         sql += " DEFAULT " + col.defaultValue
     }
 
-    sql += ",\nFOREIGN KEY (" + col.name + ") REFERENCES " + col.references + "(" + col.on + ")"
+    sql += ",\n\tFOREIGN KEY (" + col.name + ") REFERENCES " + col.references + "(" + col.on + ")"
 
     return sql
 }

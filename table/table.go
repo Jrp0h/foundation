@@ -1,7 +1,7 @@
 package table
 
 import (
-    "fmt"
+    // "fmt"
 	. "foundation/column"
 )
 
@@ -15,7 +15,7 @@ type Table struct {
     columns []*SQLable
 }
 
-func CreateTable(name string, closure func(*Table)) {
+func CreateTable(name string, closure func(*Table)) string {
     table := Table {name: name}
 
     closure(&table);
@@ -23,21 +23,22 @@ func CreateTable(name string, closure func(*Table)) {
     sql := "CREATE TABLE " + table.name + " (\n"
 
     for i, col := range table.columns {
-        sql += SQLable(*col).ToInsertSQL()
+        sql += "\t" + SQLable(*col).ToInsertSQL()
 
         if i != len(table.columns) - 1 {
-            sql += ", \n"
+            sql += ","
         }
+
+        sql += "\n"
 
     }
 
-    sql += ");"
-
-    fmt.Println(sql)
+    return sql + ");"
 }
 
-func DropIfExists(name string) {
+func DropIfExists(name string) string {
     // Drop table
+    return "DROP IF EXISTS " + name + ";"
 }
 
 // Default datatypes
