@@ -8,7 +8,6 @@ type DateTimeColumn struct {
 	allowNull bool
 	isUnique  bool
 	isPrimary   bool
-	isAutoIncrement   bool
 
 	defaultValue  string
 	onUpdateValue string
@@ -62,10 +61,6 @@ func (col *DateTimeColumn) ToInsertSQL() string {
 
     if col.isPrimary {
         sql += " PRIMARY KEY"
-    }
-
-    if col.isAutoIncrement {
-        sql += " AUTO_INCREMENT"
     }
 
     if col.onUpdateValue != "" {

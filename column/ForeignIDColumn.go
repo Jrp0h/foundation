@@ -12,7 +12,6 @@ type ForeignIDColumn struct {
 	allowNull bool
 	isUnique  bool
 	isPrimary bool
-	isAutoIncrement bool
     isUnsigned bool
 
 	defaultValue  string
@@ -75,11 +74,6 @@ func (col *ForeignIDColumn) Primary() *ForeignIDColumn {
 	return col
 }
 
-func (col *ForeignIDColumn) AutoIncrement() *ForeignIDColumn {
-	col.isAutoIncrement = true
-	return col
-}
-
 func (col *ForeignIDColumn) Unsigned() *ForeignIDColumn {
 	col.isUnsigned = true
 	return col
@@ -117,10 +111,6 @@ func (col *ForeignIDColumn) ToInsertSQL() string {
 
     if col.isPrimary {
         sql += " PRIMARY KEY"
-    }
-
-    if col.isAutoIncrement {
-        sql += " AUTO_INCREMENT"
     }
 
     if col.onUpdateValue != "" {
