@@ -2,7 +2,7 @@ package column
 
 import "fmt"
 
-type ForeginIDColumn struct {
+type ForeignIDColumn struct {
 	datatype string
 
 	name string
@@ -23,11 +23,27 @@ type ForeginIDColumn struct {
     on string
 }
 
-func NewForeginIDColumn(name string, references string, on string) *ForeginIDColumn {
-    return &ForeginIDColumn{datatype: "INT", name: name, allowNull: false, isUnique: false, length: 11, references: references, on: on}
+func NewForeignIDColumn(name string, references string, on string) *ForeignIDColumn {
+    return &ForeignIDColumn{datatype: "INT", name: name, allowNull: false, isUnique: false, length: 11, references: references, on: on}
 }
 
-func (col *ForeginIDColumn) Size(size string) *ForeginIDColumn {
+func (col *ForeignIDColumn) Tiny() *ForeignIDColumn { 
+    return col.Size("TINY")
+}
+
+func (col *ForeignIDColumn) Small() *ForeignIDColumn { 
+    return col.Size("SMALL")
+}
+
+func (col *ForeignIDColumn) Medium() *ForeignIDColumn { 
+    return col.Size("MEDIUM")
+}
+
+func (col *ForeignIDColumn) Big() *ForeignIDColumn { 
+    return col.Size("BIG")
+}
+
+func (col *ForeignIDColumn) Size(size string) *ForeignIDColumn {
     switch size {
         case "TINY", "SMALL", "", "MEDIUM", "BIG":
             col.size = size
@@ -39,52 +55,52 @@ func (col *ForeginIDColumn) Size(size string) *ForeginIDColumn {
 	return col
 }
 
-func (col *ForeginIDColumn) Length(length int) *ForeginIDColumn {
+func (col *ForeignIDColumn) Length(length int) *ForeignIDColumn {
 	col.length = length
 	return col
 }
 
-func (col *ForeginIDColumn) Nullable() *ForeginIDColumn {
+func (col *ForeignIDColumn) Nullable() *ForeignIDColumn {
 	col.allowNull = true
 	return col
 }
 
-func (col *ForeginIDColumn) Unique() *ForeginIDColumn {
+func (col *ForeignIDColumn) Unique() *ForeignIDColumn {
 	col.isUnique = true
 	return col
 }
 
-func (col *ForeginIDColumn) Primary() *ForeginIDColumn {
+func (col *ForeignIDColumn) Primary() *ForeignIDColumn {
 	col.isPrimary = true
 	return col
 }
 
-func (col *ForeginIDColumn) AutoIncrement() *ForeginIDColumn {
+func (col *ForeignIDColumn) AutoIncrement() *ForeignIDColumn {
 	col.isAutoIncrement = true
 	return col
 }
 
-func (col *ForeginIDColumn) Unsigned() *ForeginIDColumn {
+func (col *ForeignIDColumn) Unsigned() *ForeignIDColumn {
 	col.isUnsigned = true
 	return col
 }
 
-func (col *ForeginIDColumn) Default(value int) *ForeginIDColumn {
+func (col *ForeignIDColumn) Default(value int) *ForeignIDColumn {
 	col.defaultValue = fmt.Sprint(value)
 	return col
 }
 
-func (col *ForeginIDColumn) OnUpdate(value string) *ForeginIDColumn {
+func (col *ForeignIDColumn) OnUpdate(value string) *ForeignIDColumn {
 	col.onUpdateValue = value
 	return col
 }
 
-func (col *ForeginIDColumn) OnDelete(value string) *ForeginIDColumn {
+func (col *ForeignIDColumn) OnDelete(value string) *ForeignIDColumn {
 	col.onDeleteValue = value
 	return col
 }
 
-func (col *ForeginIDColumn) ToInsertSQL() string {
+func (col *ForeignIDColumn) ToInsertSQL() string {
     sql := col.name + " " + col.size + col.datatype + "(" + fmt.Sprint(col.length) + ")"
 
     if col.isUnsigned {
@@ -119,7 +135,7 @@ func (col *ForeginIDColumn) ToInsertSQL() string {
         sql += " DEFAULT " + col.defaultValue
     }
 
-    sql += ",\nFOREGIN KEY (" + col.name + ") REFERENCES " + col.references + "(" + col.on + ")"
+    sql += ",\nFOREIGN KEY (" + col.name + ") REFERENCES " + col.references + "(" + col.on + ")"
 
     return sql
 }

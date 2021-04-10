@@ -19,6 +19,18 @@ func NewTextColumn(name string) *TextColumn {
 	return &TextColumn{datatype: "TEXT", name: name, allowNull: false, isUnique: false, size: ""}
 }
 
+func (col *TextColumn) Tiny() *TextColumn {
+    return col.Size("TINY")
+}
+
+func (col *TextColumn) Medium() *TextColumn {
+    return col.Size("MEDIUM")
+}
+
+func (col *TextColumn) Long() *TextColumn {
+    return col.Size("LONG")
+}
+
 func (col *TextColumn) Size(size string) *TextColumn {
     switch size {
         case "TINY", "", "MEDIUM", "LONG":

@@ -83,8 +83,8 @@ func (table *Table) Text(name string) (*TextColumn) {
     return s
 }
 
-func (table *Table) ForeginID(name string, references string, on string) (*ForeginIDColumn) {
-    s := NewForeginIDColumn(name, references, on)
+func (table *Table) ForeignID(name string, references string, on string) (*ForeignIDColumn) {
+    s := NewForeignIDColumn(name, references, on)
     s.Unsigned().Size("BIG")
     sqlable := SQLable(s)
     table.columns = append(table.columns, &sqlable)
@@ -95,7 +95,7 @@ func (table *Table) ForeginID(name string, references string, on string) (*Foreg
 // Helper datatypes
 func (table *Table) ID() (*IntColumn) {
     s := NewIntColumn("id")
-    s.AutoIncrement().Primary().Unique().Unsigned().Size("BIG")
+    s.AutoIncrement().Primary().Unique().Unsigned().Big()
     sqlable := SQLable(s)
     table.columns = append(table.columns, &sqlable)
     return s
@@ -107,29 +107,29 @@ func (table *Table) Timestamps() {
 }
 
 func (table *Table) TinyText(name string) (*TextColumn) {
-    return table.Text(name).Size("TINY")
+    return table.Text(name).Tiny()
 }
 
 func (table *Table) MediumText(name string) (*TextColumn) {
-    return table.Text(name).Size("MEDIUM")
+    return table.Text(name).Medium()
 }
 
 func (table *Table) LongText(name string) (*TextColumn) {
-    return table.Text(name).Size("LONG")
+    return table.Text(name).Long()
 }
 
 func (table *Table) TinyInt(name string) (*IntColumn) {
-    return table.Int(name).Size("TINY")
+    return table.Int(name).Tiny()
 }
 
 func (table *Table) SmallInt(name string) (*IntColumn) {
-    return table.Int(name).Size("SMALL")
+    return table.Int(name).Small()
 }
 
 func (table *Table) MediumInt(name string) (*IntColumn) {
-    return table.Int(name).Size("MEDIUM")
+    return table.Int(name).Medium()
 }
 
 func (table *Table) BigInt(name string) (*IntColumn) {
-    return table.Int(name).Size("BIG")
+    return table.Int(name).Big()
 }

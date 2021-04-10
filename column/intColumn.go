@@ -24,6 +24,22 @@ func NewIntColumn(name string) *IntColumn {
     return &IntColumn{datatype: "INT", name: name, allowNull: false, isUnique: false, length: 11, size: ""}
 }
 
+func (col *IntColumn) Tiny() *IntColumn { 
+    return col.Size("TINY")
+}
+
+func (col *IntColumn) Small() *IntColumn { 
+    return col.Size("SMALL")
+}
+
+func (col *IntColumn) Medium() *IntColumn { 
+    return col.Size("MEDIUM")
+}
+
+func (col *IntColumn) Big() *IntColumn { 
+    return col.Size("BIG")
+}
+
 func (col *IntColumn) Size(size string) *IntColumn {
     switch size {
         case "TINY", "SMALL", "", "MEDIUM", "BIG":

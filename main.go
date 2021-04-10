@@ -18,7 +18,7 @@ func main() {
         table.String("email")
         table.Int("age")
         table.Enum("roles", []string{"Owner", "Maintainer", "Developer", "Guest"})
-        table.ForeginID("company_id", "companies", "id")
+        table.ForeignID("company_id", "companies", "id")
         table.Bool("is_male").Default(true)
         table.Timestamps()
     })
