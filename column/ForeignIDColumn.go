@@ -24,7 +24,7 @@ type ForeginIDColumn struct {
 }
 
 func NewForeginIDColumn(name string, references string, on string) *ForeginIDColumn {
-    return &ForeginIDColumn{datatype: "int", name: name, allowNull: false, isUnique: false, length: 11, references: references, on: on}
+    return &ForeginIDColumn{datatype: "INT", name: name, allowNull: false, isUnique: false, length: 11, references: references, on: on}
 }
 
 func (col *ForeginIDColumn) Size(size string) *ForeginIDColumn {
@@ -85,7 +85,7 @@ func (col *ForeginIDColumn) OnDelete(value string) *ForeginIDColumn {
 }
 
 func (col *ForeginIDColumn) ToInsertSQL() string {
-    sql := col.name + " " + col.datatype + "(" + fmt.Sprint(col.length) + ")"
+    sql := col.name + " " + col.size + col.datatype + "(" + fmt.Sprint(col.length) + ")"
 
     if col.isUnsigned {
         sql += " UNSIGNED"

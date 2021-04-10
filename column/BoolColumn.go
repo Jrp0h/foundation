@@ -1,6 +1,8 @@
 package column
 
-type DateTimeColumn struct {
+import "fmt"
+
+type BoolColumn struct {
 	datatype string
 
 	name   string
@@ -8,48 +10,52 @@ type DateTimeColumn struct {
 	allowNull bool
 	isUnique  bool
 	isPrimary   bool
-	isAutoIncrement   bool
 
 	defaultValue  string
 	onUpdateValue string
 	onDeleteValue string
 }
 
-func NewDateTimeColumn(name string) *DateTimeColumn {
-	return &DateTimeColumn{datatype: "DATETIME", name: name, allowNull: false, isUnique: false}
+func NewBoolColumn(name string) *BoolColumn {
+    return &BoolColumn{datatype: "BOOL", name: name, allowNull: false, isUnique: false}
 }
 
-func (col *DateTimeColumn) Nullable() *DateTimeColumn {
+func (col *BoolColumn) Nullable() *BoolColumn {
 	col.allowNull = true
 	return col
 }
 
-func (col *DateTimeColumn) Unique() *DateTimeColumn {
+func (col *BoolColumn) Unique() *BoolColumn {
 	col.isUnique = true
 	return col
 }
 
-func (col *DateTimeColumn) Primary() *DateTimeColumn {
+func (col *BoolColumn) Primary() *BoolColumn {
 	col.isPrimary = true
 	return col
 }
 
-func (col *DateTimeColumn) Default(value string) *DateTimeColumn {
-	col.defaultValue = value
+// I'm totaly not new to golang
+func (col *BoolColumn) Default(value bool) *BoolColumn {
+    if value {
+        col.defaultValue = fmt.Sprint(1)
+    } else  {
+        col.defaultValue = fmt.Sprint(0)
+    }
 	return col
 }
 
-func (col *DateTimeColumn) OnUpdate(value string) *DateTimeColumn {
+func (col *BoolColumn) OnUpdate(value string) *BoolColumn {
 	col.onUpdateValue = value
 	return col
 }
 
-func (col *DateTimeColumn) OnDelete(value string) *DateTimeColumn {
+func (col *BoolColumn) OnDelete(value string) *BoolColumn {
 	col.onDeleteValue = value
 	return col
 }
 
-func (col *DateTimeColumn) ToInsertSQL() string {
+func (col *BoolColumn) ToInsertSQL() string {
     sql := col.name + " " + col.datatype
 
     if !col.allowNull {
@@ -62,10 +68,6 @@ func (col *DateTimeColumn) ToInsertSQL() string {
 
     if col.isPrimary {
         sql += " PRIMARY KEY"
-    }
-
-    if col.isAutoIncrement {
-        sql += " AUTO_INCREMENT"
     }
 
     if col.onUpdateValue != "" {

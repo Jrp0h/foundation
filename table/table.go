@@ -62,6 +62,13 @@ func (table *Table) DateTime(name string) (*DateTimeColumn) {
     return s
 }
 
+func (table *Table) Bool(name string) (*BoolColumn) {
+    s := NewBoolColumn(name)
+    sqlable := SQLable(s)
+    table.columns = append(table.columns, &sqlable)
+    return s
+}
+
 func (table *Table) Enum(name string, values []string) (*EnumColumn) {
     s := NewEnumColumn(name, values)
     sqlable := SQLable(s)

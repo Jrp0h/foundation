@@ -21,7 +21,7 @@ type IntColumn struct {
 }
 
 func NewIntColumn(name string) *IntColumn {
-    return &IntColumn{datatype: "int", name: name, allowNull: false, isUnique: false, length: 11, size: ""}
+    return &IntColumn{datatype: "INT", name: name, allowNull: false, isUnique: false, length: 11, size: ""}
 }
 
 func (col *IntColumn) Size(size string) *IntColumn {
