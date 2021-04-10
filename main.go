@@ -6,6 +6,12 @@ import (
     . "foundation/table"
 )
 
+type Migration interface
+{
+    Up()
+    Down()
+}
+
 func main() {
     CreateTable("users", func (table *Table) {
         table.ID()

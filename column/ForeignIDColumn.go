@@ -71,7 +71,7 @@ func (col *ForeginIDColumn) OnDelete(value string) *ForeginIDColumn {
 	return col
 }
 
-func (col *ForeginIDColumn) ToSQL() string {
+func (col *ForeginIDColumn) ToInsertSQL() string {
     sql := col.name + " " + col.datatype + "(" + fmt.Sprint(col.length) + ")"
 
     if col.isUnsigned {

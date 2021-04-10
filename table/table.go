@@ -6,7 +6,8 @@ import (
 )
 
 type SQLable interface {
-    ToSQL() string
+    ToInsertSQL() string
+    // ToAlterSQL(tableName string)
 }
 
 type Table struct {
@@ -22,7 +23,7 @@ func CreateTable(name string, closure func(*Table)) {
     sql := "CREATE TABLE " + table.name + " (\n"
 
     for i, col := range table.columns {
-        sql += SQLable(*col).ToSQL()
+        sql += SQLable(*col).ToInsertSQL()
 
         if i != len(table.columns) - 1 {
             sql += ", \n"
@@ -33,6 +34,10 @@ func CreateTable(name string, closure func(*Table)) {
     sql += ");"
 
     fmt.Println(sql)
+}
+
+func DropIfExists(name string) {
+    // Drop table
 }
 
 // Default datatypes

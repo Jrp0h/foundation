@@ -50,7 +50,7 @@ func (col *EnumColumn) OnDelete(value string) *EnumColumn {
 	return col
 }
 
-func (col *EnumColumn) ToSQL() string {
+func (col *EnumColumn) ToInsertSQL() string {
     sql := col.name + " " + col.datatype + "("
 
     for i, v := range col.values {

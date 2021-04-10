@@ -56,7 +56,7 @@ func (col *StringColumn) OnDelete(value string) *StringColumn {
 	return col
 }
 
-func (col *StringColumn) ToSQL() string {
+func (col *StringColumn) ToInsertSQL() string {
     sql := col.name + " " + col.datatype + "(" + fmt.Sprint(col.length) + ")"
 
     if !col.allowNull {

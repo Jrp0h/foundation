@@ -68,7 +68,7 @@ func (col *IntColumn) OnDelete(value string) *IntColumn {
 	return col
 }
 
-func (col *IntColumn) ToSQL() string {
+func (col *IntColumn) ToInsertSQL() string {
     sql := col.name + " " + col.datatype + "(" + fmt.Sprint(col.length) + ")"
 
     if col.isUnsigned {

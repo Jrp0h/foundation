@@ -49,7 +49,7 @@ func (col *DateTimeColumn) OnDelete(value string) *DateTimeColumn {
 	return col
 }
 
-func (col *DateTimeColumn) ToSQL() string {
+func (col *DateTimeColumn) ToInsertSQL() string {
     sql := col.name + " " + col.datatype
 
     if !col.allowNull {
