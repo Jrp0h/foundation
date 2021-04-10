@@ -156,57 +156,67 @@ OnDelete - Sql on delete
 
 ### Helper methods
 
-ID - Same as
-
 ```golang
+table.ID()
+
+// Same as
 table.Int("id").AutoIncrement().Primary().Unsigned().Big()
 ```
 
-Timestamps - Same as
-
 ```golang
+table.Timestamps()
+
+// Same as
 table.DateTime("created_at").Default("NOW()")
 table.DateTime("updated_at").Default("NOW()").OnUpdate("NOW()")
 ```
 
-TinyText - Same as
-
 ```golang
+table.TinyText(name)
+
+// Same as
 table.Text(name).Tiny()
 ```
 
-MediumText - Same as
 
 ```golang
+table.MediumText(name)
+
+// Same as
 table.Text(name).Medium()
 ```
 
-LongText - Same as
-
 ```golang
+table.LongText(name)
+
+// Same as
 table.Text(name).Long()
 ```
 
-TinyInt - Same as
-
 ```golang
+table.TinyInt(name)
+
+// Same as
 table.Int(name).Tiny()
 ```
 
-SmallInt - Same as
-
 ```golang
+table.SmallInt(name)
+
+// Same as
 table.Int(name).Small()
 ```
 
-MediumInt - Same as
-
 ```golang
+table.MediumInt(name)
+
+// Same as
 table.Int(name).Medium()
 ```
 
-BigInt - Same as
-
 ```golang
+table.BigInt(name)
+
+// Same as
 table.Int(name).Big()
 ```
