@@ -35,8 +35,26 @@ func CreateTable(name string, closure func(*Table)) {
     fmt.Println(sql)
 }
 
+// Default datatypes
 func (table *Table) String(name string) (*StringColumn) {
     s := NewStringColumn(name)
+    sqlable := SQLable(s)
+    table.columns = append(table.columns, &sqlable)
+    return s
+}
+
+func (table *Table) Int(name string) (*IntColumn) {
+    s := NewIntColumn(name)
+    sqlable := SQLable(s)
+    table.columns = append(table.columns, &sqlable)
+    return s
+}
+
+
+// Helper datatypes
+func (table *Table) ID() (*IntColumn) {
+    s := NewIntColumn("id")
+    s.AutoIncrement().Primary().Unique().Unsigned()
     sqlable := SQLable(s)
     table.columns = append(table.columns, &sqlable)
     return s
