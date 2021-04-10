@@ -69,6 +69,13 @@ func (table *Table) Enum(name string, values []string) (*EnumColumn) {
     return s
 }
 
+func (table *Table) Text(name string) (*TextColumn) {
+    s := NewTextColumn(name)
+    sqlable := SQLable(s)
+    table.columns = append(table.columns, &sqlable)
+    return s
+}
+
 func (table *Table) ForeginID(name string, references string, on string) (*ForeginIDColumn) {
     s := NewForeginIDColumn(name, references, on)
     s.Unsigned()
@@ -92,3 +99,14 @@ func (table *Table) Timestamps() {
     table.DateTime("updated_at").Default("NOW()").OnUpdate("NOW()")
 }
 
+func (table *Table) TinyText(name string) (*TextColumn) {
+    return table.Text(name).Size("TINY")
+}
+
+func (table *Table) MediumText(name string) (*TextColumn) {
+    return table.Text(name).Size("MEDIUM")
+}
+
+func (table *Table) LongText(name string) (*TextColumn) {
+    return table.Text(name).Size("LONG")
+}
