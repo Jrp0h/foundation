@@ -1,26 +1,35 @@
 package main
 
 import (
-    "database/sql"
-	"fmt"
-	. "foundation/table"
-	_ "github.com/go-sql-driver/mysql"
+    "os"
+    "fmt"
+    . "foundation/table"
 )
 
-type Migration interface
-{
-    Up()
-    Down()
+func main() {
+    args := os.Args[1:]
+
+    if len(args) == 1 {
+        if args[0] == "up" {
+            up()
+        } else if args[0] == "down" {
+            down()
+        } else {
+            fmt.Println("Invalid argument")
+        }
+    } else {
+        fmt.Println("One argument required")
+    }
 }
 
-func main() {
-    companies := CreateTable("companies", func (table *Table) {
+func up() {
+    CreateTable("companies", func (table *Table) {
         table.ID()
         table.String("name")
         table.String("address")
     })
 
-    users := CreateTable("users", func (table *Table) {
+    CreateTable("users", func (table *Table) {
         table.ID()
         table.String("email")
         table.Int("age")
@@ -30,38 +39,9 @@ func main() {
         table.Timestamps()
     })
 
-    db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/go_db_test")
+}
 
-    if err != nil {
-        fmt.Println("Shit fucked up")
-        fmt.Println(err.Error())
-        return 
-    }
-
-    defer db.Close()
-
-    stmt, stmtError := db.Prepare(companies)
-
-    if stmtError != nil {
-        fmt.Println("Companies statement")
-        fmt.Println(stmtError.Error())
-        return
-    }
-
-    fmt.Println("Running: ")
-    fmt.Println(companies)
-    fmt.Println()
-    stmt.Exec()
-
-    stmt, stmtError = db.Prepare(users)
-
-    if stmtError != nil {
-        fmt.Println("Users statement")
-        fmt.Println(stmtError.Error())
-        return
-    }
-
-    fmt.Println("Running: ")
-    fmt.Println(users)
-    stmt.Exec()
+func down() {
+    DropIfExists("users")
+    DropIfExists("companies")
 }

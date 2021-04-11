@@ -1,8 +1,10 @@
 package table
 
 import (
-    // "fmt"
+    "database/sql"
 	. "foundation/column"
+    _ "github.com/go-sql-driver/mysql"
+    "fmt"
 )
 
 type SQLable interface {
@@ -14,6 +16,34 @@ type Table struct {
     name string
     columns []*SQLable
 }
+
+func sqlRun(query string) {
+    db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/go_db_test")
+    if err != nil {
+        fmt.Println("Couldn't open database")
+        panic("Couldn't open database")
+    }
+
+    defer db.Close()
+
+    stmt, stmtError := db.Prepare(query)
+
+    if stmtError != nil {
+        fmt.Println("Error prepering statment:")
+        fmt.Println(query)
+        fmt.Println(stmtError.Error())
+        panic("error prepering statment")
+    }
+
+    _, execError := stmt.Exec()
+
+    if execError != nil {
+        fmt.Println("Error running statment:")
+        fmt.Println(query)
+        fmt.Println(execError.Error())
+        panic("Error running statment")
+    }
+} 
 
 func CreateTable(name string, closure func(*Table)) string {
     table := Table {name: name}
@@ -33,12 +63,19 @@ func CreateTable(name string, closure func(*Table)) string {
 
     }
 
-    return sql + ");"
+    sql += ");"
+
+    sqlRun(sql)
+
+    return sql
 }
 
 func DropIfExists(name string) string {
     // Drop table
-    return "DROP IF EXISTS " + name + ";"
+    sql := "DROP TABLE IF EXISTS " + name + ";"
+    sqlRun(sql)
+
+    return sql
 }
 
 // Default datatypes
@@ -134,3 +171,4 @@ func (table *Table) MediumInt(name string) (*IntColumn) {
 func (table *Table) BigInt(name string) (*IntColumn) {
     return table.Int(name).Big()
 }
+
