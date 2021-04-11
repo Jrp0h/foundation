@@ -129,6 +129,13 @@ func (table *Table) ForeignID(name string, references string, on string) (*Forei
     return s
 }
 
+func (table *Table) Float(name string, size int, d int) (*FloatColumn) {
+    s := NewFloatColumn(name, size, d)
+    sqlable := SQLable(s)
+    table.columns = append(table.columns, &sqlable)
+    return s
+}
+
 
 // Helper datatypes
 func (table *Table) ID() (*IntColumn) {
