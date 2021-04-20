@@ -4,19 +4,63 @@ Foundation is a Laravel Eloquent inspired sql migration handle(?) made for fun.
 
 ## Documentation
 
-To create a table:
+To create a migration (file: migration.go):
 
 ```golang
-CreateTable("name", func(table *Table) {
-    // Add columns here
-    table.ID()
-    table.String("email")
-    table.Int("age")
-    table.Enum("roles", []string{"Owner", "Maintainer", "Developer", "Guest"})
-    table.ForeignID("company_id", "companies", "id")
-    table.Bool("is_male").Default(true)
-    table.Timestamps()
-})
+package main
+
+import (
+    . "foundation/table"
+    . "foundation/schema"
+)
+
+func main() {
+    RunMigrations(Credentials{
+        Username: "root",
+        Password: "pw",
+        Ip: "127.0.0.1",
+        Port: 3306,
+        Name: "go_db_test",
+    }, up, down);
+
+    // Credentials expand to root:pw@tcp(127.0.0.1:3306)/go_db_test
+}
+
+func up(schema *Schema) {
+    schema.CreateTable("companies", func (table *Table) {
+        table.ID()
+        table.String("name")
+        table.String("address")
+    })
+
+    schema.CreateTable("users", func (table *Table) {
+        table.ID()
+        table.String("email")
+        table.Int("age").Nullable()
+        table.Enum("roles", []string{"Owner", "Maintainer", "Developer", "Guest"})
+        table.ForeignID("company_id", "companies", "id")
+        table.Bool("is_male").Default(true)
+        table.Timestamps()
+    })
+
+}
+
+func down(schema *Schema) {
+    schema.DropIfExists("companies")
+    schema.DropIfExists("users")
+}
+```
+
+Then to run up
+
+```bash
+go run migration.go up
+```
+
+Then to run down
+
+```bash
+go run migration.go down
 ```
 
 ### Columns
@@ -177,7 +221,6 @@ table.TinyText(name)
 // Same as
 table.Text(name).Tiny()
 ```
-
 
 ```golang
 table.MediumText(name)
