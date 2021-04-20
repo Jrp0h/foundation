@@ -26,7 +26,7 @@ func up(schema *Schema) {
         table.ID()
         table.String("email")
         table.Int("age").Nullable()
-        table.Enum("roles", []string{"Owner", "Maintainer", "Developer", "Guest"})
+        table.Enum("roles", []string{"Owner", "Maintainer", "Developer", "Guest"}).Default("Guest")
         table.ForeignID("company_id", "companies", "id")
         table.Bool("is_male").Default(true)
         table.Timestamps()
@@ -35,6 +35,6 @@ func up(schema *Schema) {
 }
 
 func down(schema *Schema) {
-    schema.DropIfExists("companies")
     schema.DropIfExists("users")
+    schema.DropIfExists("companies")
 }

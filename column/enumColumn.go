@@ -36,6 +36,20 @@ func (col *EnumColumn) Primary() *EnumColumn {
 }
 
 func (col *EnumColumn) Default(value string) *EnumColumn {
+
+    isInvalid := true
+
+    for _, v := range col.values {
+        if(v == value) {
+            isInvalid = false
+            break;
+        }
+    }
+
+    if(isInvalid) {
+        panic(value + " isn't valid option for " + col.name)
+    }
+
 	col.defaultValue = value
 	return col
 }

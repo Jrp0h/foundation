@@ -46,8 +46,8 @@ func up(schema *Schema) {
 }
 
 func down(schema *Schema) {
-    schema.DropIfExists("companies")
     schema.DropIfExists("users")
+    schema.DropIfExists("companies")
 }
 ```
 
