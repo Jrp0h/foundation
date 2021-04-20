@@ -1,4 +1,4 @@
-module foundation
+module github.com/Jrp0h/foundation
 
 go 1.13
 
