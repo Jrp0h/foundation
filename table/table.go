@@ -1,7 +1,7 @@
 package table
 
 import (
-	. "foundation/column"
+	. "github.com/Jrp0h/foundation/column"
 	_ "github.com/go-sql-driver/mysql"
 )
 

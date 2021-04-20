@@ -5,7 +5,7 @@ import (
 	"fmt"
     "os"
     _ "github.com/go-sql-driver/mysql"
-    . "foundation/table"
+    . "github.com/Jrp0h/foundation/table"
 )
 
 type Credentials struct {
