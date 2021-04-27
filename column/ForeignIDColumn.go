@@ -113,6 +113,12 @@ func (col *ForeignIDColumn) ToInsertSQL() string {
         sql += " PRIMARY KEY"
     }
 
+    if col.defaultValue != "" {
+        sql += " DEFAULT " + col.defaultValue
+    }
+
+    sql += ",\n\tFOREIGN KEY (" + col.name + ") REFERENCES " + col.references + "(" + col.on + ")"
+
     if col.onUpdateValue != "" {
         sql += " ON UPDATE " + col.onUpdateValue
     }
@@ -120,12 +126,6 @@ func (col *ForeignIDColumn) ToInsertSQL() string {
     if col.onDeleteValue != "" {
         sql += " ON DELETE " + col.onDeleteValue
     }
-
-    if col.defaultValue != "" {
-        sql += " DEFAULT " + col.defaultValue
-    }
-
-    sql += ",\n\tFOREIGN KEY (" + col.name + ") REFERENCES " + col.references + "(" + col.on + ")"
 
     return sql
 }
