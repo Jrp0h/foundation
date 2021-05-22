@@ -142,5 +142,5 @@ func (col *ForeignIDColumn) ToAlterSQL() string {
 		return " MODIFY " + col.ToInsertSQL()
 	}
 
-	return " ADD " + col.ToInsertSQL()
+	return " ADD IF NOT EXISTS " + col.ToInsertSQL()
 }

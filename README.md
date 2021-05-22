@@ -3,6 +3,7 @@
 Foundation is a Laravel Eloquent inspired sql migration handle(?) made for fun.
 
 ## Documentation
+
 To create a migration (file: migration.go):
 
 ```golang

@@ -13,5 +13,5 @@ func (col *DropColumn) ToInsertSQL() string {
 }
 
 func (col *DropColumn) ToAlterSQL() string {
-	return " DROP COLUMN " + col.name
+	return " DROP COLUMN IF EXISTS " + col.name
 }
