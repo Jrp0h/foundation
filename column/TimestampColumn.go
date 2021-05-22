@@ -3,19 +3,21 @@ package column
 type TimestampColumn struct {
 	datatype string
 
-	name   string
+	name string
 
 	allowNull bool
 	isUnique  bool
-	isPrimary   bool
+	isPrimary bool
 
 	defaultValue  string
 	onUpdateValue string
 	onDeleteValue string
+
+	alter bool
 }
 
 func NewTimestampColumn(name string) *TimestampColumn {
-	return &TimestampColumn{datatype: "TIMESTAMP", name: name, allowNull: false, isUnique: false}
+	return &TimestampColumn{datatype: "TIMESTAMP", name: name, allowNull: false, isUnique: false, alter: false}
 }
 
 func (col *TimestampColumn) Nullable() *TimestampColumn {
@@ -48,32 +50,45 @@ func (col *TimestampColumn) OnDelete(value string) *TimestampColumn {
 	return col
 }
 
+func (col *TimestampColumn) Alter() *TimestampColumn {
+	col.alter = true
+	return col
+}
+
 func (col *TimestampColumn) ToInsertSQL() string {
-    sql := col.name + " " + col.datatype
+	sql := col.name + " " + col.datatype
 
-    if !col.allowNull {
-        sql += " NOT NULL"
-    }
+	if !col.allowNull {
+		sql += " NOT NULL"
+	}
 
-    if col.isUnique {
-        sql += " UNIQUE"
-    }
+	if col.isUnique {
+		sql += " UNIQUE"
+	}
 
-    if col.isPrimary {
-        sql += " PRIMARY KEY"
-    }
+	if col.isPrimary {
+		sql += " PRIMARY KEY"
+	}
 
-    if col.onUpdateValue != "" {
-        sql += " ON UPDATE " + col.onUpdateValue
-    }
+	if col.onUpdateValue != "" {
+		sql += " ON UPDATE " + col.onUpdateValue
+	}
 
-    if col.onDeleteValue != "" {
-        sql += " ON DELETE " + col.onDeleteValue
-    }
+	if col.onDeleteValue != "" {
+		sql += " ON DELETE " + col.onDeleteValue
+	}
 
-    if col.defaultValue != "" {
-        sql += " DEFAULT " + col.defaultValue
-    }
+	if col.defaultValue != "" {
+		sql += " DEFAULT " + col.defaultValue
+	}
 
-    return sql
+	return sql
+}
+
+func (col *TimestampColumn) ToAlterSQL() string {
+	if col.alter {
+		return " MODIFY " + col.ToInsertSQL()
+	}
+
+	return " ADD " + col.ToInsertSQL()
 }

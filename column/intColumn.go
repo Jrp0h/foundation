@@ -7,47 +7,49 @@ type IntColumn struct {
 
 	name   string
 	length int
-    size string
+	size   string
 
-	allowNull bool
-	isUnique  bool
-	isPrimary   bool
-	isAutoIncrement   bool
-    isUnsigned bool
+	allowNull       bool
+	isUnique        bool
+	isPrimary       bool
+	isAutoIncrement bool
+	isUnsigned      bool
 
 	defaultValue  string
 	onUpdateValue string
 	onDeleteValue string
+
+	alter bool
 }
 
 func NewIntColumn(name string) *IntColumn {
-    return &IntColumn{datatype: "INT", name: name, allowNull: false, isUnique: false, length: 11, size: ""}
+	return &IntColumn{datatype: "INT", name: name, allowNull: false, isUnique: false, length: 11, size: "", alter: false}
 }
 
-func (col *IntColumn) Tiny() *IntColumn { 
-    return col.Size("TINY")
+func (col *IntColumn) Tiny() *IntColumn {
+	return col.Size("TINY")
 }
 
-func (col *IntColumn) Small() *IntColumn { 
-    return col.Size("SMALL")
+func (col *IntColumn) Small() *IntColumn {
+	return col.Size("SMALL")
 }
 
-func (col *IntColumn) Medium() *IntColumn { 
-    return col.Size("MEDIUM")
+func (col *IntColumn) Medium() *IntColumn {
+	return col.Size("MEDIUM")
 }
 
-func (col *IntColumn) Big() *IntColumn { 
-    return col.Size("BIG")
+func (col *IntColumn) Big() *IntColumn {
+	return col.Size("BIG")
 }
 
 func (col *IntColumn) Size(size string) *IntColumn {
-    switch size {
-        case "TINY", "SMALL", "", "MEDIUM", "BIG":
-            col.size = size
-            break
-        default:
-            panic(size + " is not a valid integer size!, allowed: TINY, SMALL, MEDIUM, BIG and ''(Empty string)")
-    }
+	switch size {
+	case "TINY", "SMALL", "", "MEDIUM", "BIG":
+		col.size = size
+		break
+	default:
+		panic(size + " is not a valid integer size!, allowed: TINY, SMALL, MEDIUM, BIG and ''(Empty string)")
+	}
 
 	return col
 }
@@ -97,40 +99,53 @@ func (col *IntColumn) OnDelete(value string) *IntColumn {
 	return col
 }
 
+func (col *IntColumn) Alter() *IntColumn {
+	col.alter = true
+	return col
+}
+
 func (col *IntColumn) ToInsertSQL() string {
-    sql := col.name + " " + col.size + col.datatype + "(" + fmt.Sprint(col.length) + ")"
+	sql := col.name + " " + col.size + col.datatype + "(" + fmt.Sprint(col.length) + ")"
 
-    if col.isUnsigned {
-        sql += " UNSIGNED"
-    }
+	if col.isUnsigned {
+		sql += " UNSIGNED"
+	}
 
-    if !col.allowNull {
-        sql += " NOT NULL"
-    }
+	if !col.allowNull {
+		sql += " NOT NULL"
+	}
 
-    if col.isUnique {
-        sql += " UNIQUE"
-    }
+	if col.isUnique {
+		sql += " UNIQUE"
+	}
 
-    if col.isPrimary {
-        sql += " PRIMARY KEY"
-    }
+	if col.isPrimary {
+		sql += " PRIMARY KEY"
+	}
 
-    if col.isAutoIncrement {
-        sql += " AUTO_INCREMENT"
-    }
+	if col.isAutoIncrement {
+		sql += " AUTO_INCREMENT"
+	}
 
-    if col.onUpdateValue != "" {
-        sql += " ON UPDATE " + col.onUpdateValue
-    }
+	if col.onUpdateValue != "" {
+		sql += " ON UPDATE " + col.onUpdateValue
+	}
 
-    if col.onDeleteValue != "" {
-        sql += " ON DELETE " + col.onDeleteValue
-    }
+	if col.onDeleteValue != "" {
+		sql += " ON DELETE " + col.onDeleteValue
+	}
 
-    if col.defaultValue != "" {
-        sql += " DEFAULT " + col.defaultValue
-    }
+	if col.defaultValue != "" {
+		sql += " DEFAULT " + col.defaultValue
+	}
 
-    return sql
+	return sql
+}
+
+func (col *IntColumn) ToAlterSQL() string {
+	if col.alter {
+		return " MODIFY " + col.ToInsertSQL()
+	}
+
+	return " ADD " + col.ToInsertSQL()
 }

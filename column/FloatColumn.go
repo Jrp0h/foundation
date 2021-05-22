@@ -5,23 +5,25 @@ import "fmt"
 type FloatColumn struct {
 	datatype string
 
-	name   string
-    size int
-    d int
+	name string
+	size int
+	d    int
 
-	allowNull bool
-	isUnique  bool
-	isPrimary   bool
-	isAutoIncrement   bool
-    isUnsigned bool
+	allowNull       bool
+	isUnique        bool
+	isPrimary       bool
+	isAutoIncrement bool
+	isUnsigned      bool
 
 	defaultValue  string
 	onUpdateValue string
 	onDeleteValue string
+
+	alter bool
 }
 
 func NewFloatColumn(name string, size int, d int) *FloatColumn {
-    return &FloatColumn{datatype: "FLOAT", name: name, allowNull: false, isUnique: false, size: size, d: d}
+	return &FloatColumn{datatype: "FLOAT", name: name, allowNull: false, isUnique: false, size: size, d: d, alter: false}
 }
 
 func (col *FloatColumn) Nullable() *FloatColumn {
@@ -64,40 +66,53 @@ func (col *FloatColumn) OnDelete(value string) *FloatColumn {
 	return col
 }
 
+func (col *FloatColumn) Alter() *FloatColumn {
+	col.alter = true
+	return col
+}
+
 func (col *FloatColumn) ToInsertSQL() string {
-    sql := col.name + " " + col.datatype + "(" + fmt.Sprint(col.size) + ", " + fmt.Sprint(col.d) + ")"
+	sql := col.name + " " + col.datatype + "(" + fmt.Sprint(col.size) + ", " + fmt.Sprint(col.d) + ")"
 
-    if col.isUnsigned {
-        sql += " UNSIGNED"
-    }
+	if col.isUnsigned {
+		sql += " UNSIGNED"
+	}
 
-    if !col.allowNull {
-        sql += " NOT NULL"
-    }
+	if !col.allowNull {
+		sql += " NOT NULL"
+	}
 
-    if col.isUnique {
-        sql += " UNIQUE"
-    }
+	if col.isUnique {
+		sql += " UNIQUE"
+	}
 
-    if col.isPrimary {
-        sql += " PRIMARY KEY"
-    }
+	if col.isPrimary {
+		sql += " PRIMARY KEY"
+	}
 
-    if col.isAutoIncrement {
-        sql += " AUTO_INCREMENT"
-    }
+	if col.isAutoIncrement {
+		sql += " AUTO_INCREMENT"
+	}
 
-    if col.onUpdateValue != "" {
-        sql += " ON UPDATE " + col.onUpdateValue
-    }
+	if col.onUpdateValue != "" {
+		sql += " ON UPDATE " + col.onUpdateValue
+	}
 
-    if col.onDeleteValue != "" {
-        sql += " ON DELETE " + col.onDeleteValue
-    }
+	if col.onDeleteValue != "" {
+		sql += " ON DELETE " + col.onDeleteValue
+	}
 
-    if col.defaultValue != "" {
-        sql += " DEFAULT " + col.defaultValue
-    }
+	if col.defaultValue != "" {
+		sql += " DEFAULT " + col.defaultValue
+	}
 
-    return sql
+	return sql
+}
+
+func (col *FloatColumn) ToAlterSQL() string {
+	if col.alter {
+		return " MODIFY " + col.ToInsertSQL()
+	}
+
+	return " ADD " + col.ToInsertSQL()
 }

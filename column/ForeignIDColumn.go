@@ -5,51 +5,53 @@ import "fmt"
 type ForeignIDColumn struct {
 	datatype string
 
-	name string
+	name   string
 	length int
-    size string
+	size   string
 
-	allowNull bool
-	isUnique  bool
-	isPrimary bool
-    isUnsigned bool
+	allowNull  bool
+	isUnique   bool
+	isPrimary  bool
+	isUnsigned bool
 
 	defaultValue  string
 	onUpdateValue string
 	onDeleteValue string
 
-    references string
-    on string
+	references string
+	on         string
+
+	alter bool
 }
 
 func NewForeignIDColumn(name string, references string, on string) *ForeignIDColumn {
-    return &ForeignIDColumn{datatype: "INT", name: name, allowNull: false, isUnique: false, length: 11, references: references, on: on}
+	return &ForeignIDColumn{datatype: "INT", name: name, allowNull: false, isUnique: false, length: 11, references: references, on: on, alter: false}
 }
 
-func (col *ForeignIDColumn) Tiny() *ForeignIDColumn { 
-    return col.Size("TINY")
+func (col *ForeignIDColumn) Tiny() *ForeignIDColumn {
+	return col.Size("TINY")
 }
 
-func (col *ForeignIDColumn) Small() *ForeignIDColumn { 
-    return col.Size("SMALL")
+func (col *ForeignIDColumn) Small() *ForeignIDColumn {
+	return col.Size("SMALL")
 }
 
-func (col *ForeignIDColumn) Medium() *ForeignIDColumn { 
-    return col.Size("MEDIUM")
+func (col *ForeignIDColumn) Medium() *ForeignIDColumn {
+	return col.Size("MEDIUM")
 }
 
-func (col *ForeignIDColumn) Big() *ForeignIDColumn { 
-    return col.Size("BIG")
+func (col *ForeignIDColumn) Big() *ForeignIDColumn {
+	return col.Size("BIG")
 }
 
 func (col *ForeignIDColumn) Size(size string) *ForeignIDColumn {
-    switch size {
-        case "TINY", "SMALL", "", "MEDIUM", "BIG":
-            col.size = size
-            break
-        default:
-            panic(size + " is not a valid integer size!, allowed: TINY, SMALL, MEDIUM, BIG and ''(Empty string)")
-    }
+	switch size {
+	case "TINY", "SMALL", "", "MEDIUM", "BIG":
+		col.size = size
+		break
+	default:
+		panic(size + " is not a valid integer size!, allowed: TINY, SMALL, MEDIUM, BIG and ''(Empty string)")
+	}
 
 	return col
 }
@@ -94,38 +96,51 @@ func (col *ForeignIDColumn) OnDelete(value string) *ForeignIDColumn {
 	return col
 }
 
+func (col *ForeignIDColumn) Alter() *ForeignIDColumn {
+	col.alter = true
+	return col
+}
+
 func (col *ForeignIDColumn) ToInsertSQL() string {
-    sql := col.name + " " + col.size + col.datatype + "(" + fmt.Sprint(col.length) + ")"
+	sql := col.name + " " + col.size + col.datatype + "(" + fmt.Sprint(col.length) + ")"
 
-    if col.isUnsigned {
-        sql += " UNSIGNED"
-    }
+	if col.isUnsigned {
+		sql += " UNSIGNED"
+	}
 
-    if !col.allowNull {
-        sql += " NOT NULL"
-    }
+	if !col.allowNull {
+		sql += " NOT NULL"
+	}
 
-    if col.isUnique {
-        sql += " UNIQUE"
-    }
+	if col.isUnique {
+		sql += " UNIQUE"
+	}
 
-    if col.isPrimary {
-        sql += " PRIMARY KEY"
-    }
+	if col.isPrimary {
+		sql += " PRIMARY KEY"
+	}
 
-    if col.defaultValue != "" {
-        sql += " DEFAULT " + col.defaultValue
-    }
+	if col.defaultValue != "" {
+		sql += " DEFAULT " + col.defaultValue
+	}
 
-    sql += ",\n\tFOREIGN KEY (" + col.name + ") REFERENCES " + col.references + "(" + col.on + ")"
+	sql += ",\n\tFOREIGN KEY (" + col.name + ") REFERENCES " + col.references + "(" + col.on + ")"
 
-    if col.onUpdateValue != "" {
-        sql += " ON UPDATE " + col.onUpdateValue
-    }
+	if col.onUpdateValue != "" {
+		sql += " ON UPDATE " + col.onUpdateValue
+	}
 
-    if col.onDeleteValue != "" {
-        sql += " ON DELETE " + col.onDeleteValue
-    }
+	if col.onDeleteValue != "" {
+		sql += " ON DELETE " + col.onDeleteValue
+	}
 
-    return sql
+	return sql
+}
+
+func (col *ForeignIDColumn) ToAlterSQL() string {
+	if col.alter {
+		return " MODIFY " + col.ToInsertSQL()
+	}
+
+	return " ADD " + col.ToInsertSQL()
 }
