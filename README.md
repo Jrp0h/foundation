@@ -3,7 +3,6 @@
 Foundation is a Laravel Eloquent inspired sql migration handle(?) made for fun.
 
 ## Documentation
-
 To create a migration (file: migration.go):
 
 ```golang
@@ -41,6 +40,17 @@ func up(schema *Schema) {
         table.ForeignID("company_id", "companies", "id")
         table.Bool("is_male").Default(true)
         table.Timestamps()
+    })
+
+    schema.AlterTable("users", func(table *Table) {
+        // Creates new field called "gender"
+        table.Enum("gender", []string{"Male", "Female"}).Default("Female")
+
+        // Sets the "email" field to unique
+        table.String("email").Unique().Alter()
+
+        // Drops "is_male"
+        table.DropColumn("is_male")
     })
 
 }
@@ -197,6 +207,10 @@ Methods:
 * Default - Adds a default value when no value is inserted in the database
 * OnUpdate - Sql on update
 * OnDelete - Sql on delete
+
+#### DropColumn
+
+Drops the given column
 
 ### Helper methods
 

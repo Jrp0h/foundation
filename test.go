@@ -33,11 +33,10 @@ func up(schema *Schema) {
 	})
 
 	schema.AlterTable("users", func(table *Table) {
-		table.Enum("is_male", []string{"Male", "Female"}).Default("Male").Alter()
-		table.Enum("Gender", []string{"Male", "Female"}).Default("Female")
-		table.DropColumn("age")
+		table.Enum("gender", []string{"Male", "Female"}).Default("Female")
+		table.String("email").Unique().Alter()
+		table.DropColumn("is_male")
 	})
-
 }
 
 func down(schema *Schema) {
